@@ -1,9 +1,9 @@
-const crypto = require('node:crypto');
-const { getStore } = require('@netlify/blobs');
+import crypto from 'node:crypto';
+import { getStore } from '@netlify/blobs';
 
 let store;
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   if (event.httpMethod !== 'POST') return json({ error: 'Method not allowed' }, 405);
 
   const rawBody = event.body || '';

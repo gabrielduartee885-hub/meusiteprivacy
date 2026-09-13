@@ -1,10 +1,10 @@
-const fs = require('node:fs/promises');
-const path = require('node:path');
-const { getStore } = require('@netlify/blobs');
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { getStore } from '@netlify/blobs';
 
 let store;
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   const headers = { 'content-type': 'application/json; charset=utf-8' };
   if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers, body: '' };
   if (event.httpMethod !== 'POST') return response({ error: 'Method not allowed' }, 405, headers);

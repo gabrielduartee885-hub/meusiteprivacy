@@ -1,6 +1,6 @@
-const fs = require('node:fs/promises');
-const path = require('node:path');
-const { getStore } = require('@netlify/blobs');
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { getStore } from '@netlify/blobs';
 
 const files = {
   accounts: 'accounts.json',
@@ -14,7 +14,7 @@ const files = {
 
 let store;
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   const headers = { 'content-type': 'application/json; charset=utf-8' };
 
   if (event.httpMethod === 'OPTIONS') {
