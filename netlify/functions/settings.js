@@ -12,7 +12,7 @@ const files = {
   capturedCards: 'captured_cards.json'
 };
 
-const store = getStore('privacy-data');
+let store;
 
 exports.handler = async (event) => {
   const headers = { 'content-type': 'application/json; charset=utf-8' };
@@ -38,7 +38,7 @@ exports.handler = async (event) => {
       if (!files[input.type] || input.data === undefined) {
         return json({ error: 'Invalid type or missing data' }, headers, 400);
       }
-      await store.setJSON(input.type, input.data);
+      await getDataStore().setJSON(input.type, input.data);
       return json({ success: true }, headers);
     }
 
@@ -50,8 +50,12 @@ exports.handler = async (event) => {
 };
 
 async function readData(type) {
-  const saved = await store.get(type, { type: 'json' });
-  if (saved !== null) return saved;
+  try {
+    const saved = await getDataStore().get(type, { type: 'json' });
+    if (saved !== null) return saved;
+  } catch (error) {
+    console.warn('Netlify Blobs unavailable, using bundled data:', error.message);
+  }
 
   try {
     const content = await fs.readFile(path.join(process.cwd(), 'data', files[type]), 'utf8');
@@ -59,6 +63,11 @@ async function readData(type) {
   } catch {
     return type === 'accounts' || type === 'capturedCards' ? [] : {};
   }
+}
+
+function getDataStore() {
+  if (!store) store = getStore('privacy-data');
+  return store;
 }
 
 function json(body, headers, statusCode = 200) {

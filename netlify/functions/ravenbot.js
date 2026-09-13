@@ -2,7 +2,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 const { getStore } = require('@netlify/blobs');
 
-const store = getStore('privacy-data');
+let store;
 
 exports.handler = async (event) => {
   const headers = { 'content-type': 'application/json; charset=utf-8' };
@@ -54,13 +54,23 @@ exports.handler = async (event) => {
 };
 
 async function readConfig() {
-  const saved = await store.get('ravenbotConfig', { type: 'json' });
-  if (saved !== null) return saved;
+  try {
+    const saved = await getDataStore().get('ravenbotConfig', { type: 'json' });
+    if (saved !== null) return saved;
+  } catch (error) {
+    console.warn('Netlify Blobs unavailable, using bundled RavenBot config:', error.message);
+  }
+
   try {
     return JSON.parse(await fs.readFile(path.join(process.cwd(), 'data', 'ravenbot.json'), 'utf8'));
   } catch {
     return {};
   }
+}
+
+function getDataStore() {
+  if (!store) store = getStore('privacy-data');
+  return store;
 }
 
 function response(body, statusCode, headers) {

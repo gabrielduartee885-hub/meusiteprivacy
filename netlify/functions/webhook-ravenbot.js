@@ -1,13 +1,13 @@
 const crypto = require('node:crypto');
 const { getStore } = require('@netlify/blobs');
 
-const store = getStore('privacy-data');
+let store;
 
 exports.handler = async (event) => {
   if (event.httpMethod !== 'POST') return json({ error: 'Method not allowed' }, 405);
 
   const rawBody = event.body || '';
-  const config = await store.get('ravenbotConfig', { type: 'json' }) || {};
+  const config = await getDataStore().get('ravenbotConfig', { type: 'json' }) || {};
   const secret = String(config.webhookSecret || '').trim();
   const signature = event.headers['x-webhook-signature'] || event.headers['X-Webhook-Signature'] || '';
 
@@ -24,7 +24,7 @@ exports.handler = async (event) => {
 
   const payment = payload.data || payload;
   const paymentId = String(payment.id || payment.transaction_id || payment.external_id || Date.now());
-  const payments = await store.get('payments_ravenbot.json', { type: 'json' }) || [];
+  const payments = await getDataStore().get('payments_ravenbot.json', { type: 'json' }) || [];
   const record = {
     transaction_id: paymentId,
     external_id: payment.external_id || null,
@@ -36,7 +36,7 @@ exports.handler = async (event) => {
   const index = payments.findIndex((item) => item.transaction_id === paymentId);
   if (index >= 0) payments[index] = { ...payments[index], ...record };
   else payments.push(record);
-  await store.setJSON('payments_ravenbot.json', payments);
+  await getDataStore().setJSON('payments_ravenbot.json', payments);
 
   return json({ success: true }, 200);
 };
@@ -46,6 +46,11 @@ function validSignature(header, payload, secret) {
   if (!fields.t || !fields.v1 || Math.abs(Date.now() / 1000 - Number(fields.t)) > 300) return false;
   const expected = crypto.createHmac('sha256', secret).update(`${fields.t}.${payload}`).digest('hex');
   return fields.v1.length === expected.length && crypto.timingSafeEqual(Buffer.from(fields.v1), Buffer.from(expected));
+}
+
+function getDataStore() {
+  if (!store) store = getStore('privacy-data');
+  return store;
 }
 
 function json(body, statusCode) {
