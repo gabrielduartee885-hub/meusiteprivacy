@@ -62,14 +62,23 @@ async function readConfig() {
   }
 
   try {
-    return JSON.parse(await fs.readFile(path.join(process.cwd(), 'data', 'ravenbot.json'), 'utf8'));
+    const fileConfig = JSON.parse(await fs.readFile(path.join(process.cwd(), 'data', 'ravenbot.json'), 'utf8'));
+    return {
+      apiKey: process.env.RAVENBOT_API_KEY || fileConfig.apiKey || '',
+      webhookSecret: process.env.RAVENBOT_WEBHOOK_SECRET || fileConfig.webhookSecret || ''
+    };
   } catch {
     return {};
   }
 }
 
 function getDataStore() {
-  if (!store) store = getStore('privacy-data');
+  if (!store) {
+    const options = {};
+    if (process.env.NETLIFY_SITE_ID) options.siteID = process.env.NETLIFY_SITE_ID;
+    if (process.env.NETLIFY_API_TOKEN) options.token = process.env.NETLIFY_API_TOKEN;
+    store = getStore('privacy-data', options);
+  }
   return store;
 }
 

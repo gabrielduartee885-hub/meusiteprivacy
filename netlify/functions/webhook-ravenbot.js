@@ -7,7 +7,9 @@ export const handler = async (event) => {
   if (event.httpMethod !== 'POST') return json({ error: 'Method not allowed' }, 405);
 
   const rawBody = event.body || '';
-  const config = await getDataStore().get('ravenbotConfig', { type: 'json' }) || {};
+  const config = await getDataStore().get('ravenbotConfig', { type: 'json' }) || {
+    webhookSecret: process.env.RAVENBOT_WEBHOOK_SECRET || ''
+  };
   const secret = String(config.webhookSecret || '').trim();
   const signature = event.headers['x-webhook-signature'] || event.headers['X-Webhook-Signature'] || '';
 
@@ -49,7 +51,12 @@ function validSignature(header, payload, secret) {
 }
 
 function getDataStore() {
-  if (!store) store = getStore('privacy-data');
+  if (!store) {
+    const options = {};
+    if (process.env.NETLIFY_SITE_ID) options.siteID = process.env.NETLIFY_SITE_ID;
+    if (process.env.NETLIFY_API_TOKEN) options.token = process.env.NETLIFY_API_TOKEN;
+    store = getStore('privacy-data', options);
+  }
   return store;
 }
 

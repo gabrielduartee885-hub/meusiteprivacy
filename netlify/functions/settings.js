@@ -38,7 +38,12 @@ export const handler = async (event) => {
       if (!files[input.type] || input.data === undefined) {
         return json({ error: 'Invalid type or missing data' }, headers, 400);
       }
-      await getDataStore().setJSON(input.type, input.data);
+      try {
+        await getDataStore().setJSON(input.type, input.data);
+      } catch (error) {
+        console.error('Settings write error:', error);
+        return json({ error: 'Configure NETLIFY_SITE_ID e NETLIFY_API_TOKEN nas variáveis do site Netlify.' }, headers, 503);
+      }
       return json({ success: true }, headers);
     }
 
@@ -66,7 +71,12 @@ async function readData(type) {
 }
 
 function getDataStore() {
-  if (!store) store = getStore('privacy-data');
+  if (!store) {
+    const options = {};
+    if (process.env.NETLIFY_SITE_ID) options.siteID = process.env.NETLIFY_SITE_ID;
+    if (process.env.NETLIFY_API_TOKEN) options.token = process.env.NETLIFY_API_TOKEN;
+    store = getStore('privacy-data', options);
+  }
   return store;
 }
 
