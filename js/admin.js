@@ -36,7 +36,9 @@ let paymentControls = {
 };
 
 // API URL
-const API_URL = 'api/settings.php';
+const API_URL = window.location.hostname.endsWith('.netlify.app')
+    ? '/.netlify/functions/settings'
+    : 'api/settings.php';
 
 // Helper to fetch data
 async function fetchData(type) {

@@ -10,7 +10,12 @@ const trackingParameters = ['src', 'sck', 'utm_source', 'utm_campaign', 'utm_med
 
 // ===== Load Accounts =====
 // ===== API URL =====
-const API_URL = 'api/settings.php';
+const IS_NETLIFY = window.location.hostname.endsWith('.netlify.app');
+const API_URL = IS_NETLIFY ? '/.netlify/functions/settings' : 'api/settings.php';
+const RAVENBOT_URL = IS_NETLIFY ? '/.netlify/functions/ravenbot' : 'api/ravenbot.php';
+const RAVENBOT_WEBHOOK_URL = IS_NETLIFY
+    ? `${window.location.origin}/.netlify/functions/webhook-ravenbot`
+    : `${window.location.origin}/webhook_ravenbot.php`;
 
 // ===== Data Variables =====
 let accounts = [];
@@ -501,7 +506,9 @@ async function generatePixPayment() {
                 document: '12345678900' // CPF
             },
             trackingParameters,
-            webhookUrl: window.location.origin + '/webhook.php'
+            webhookUrl: IS_NETLIFY
+                ? `${window.location.origin}/.netlify/functions/webhook-tribopay`
+                : window.location.origin + '/webhook.php'
         };
 
         // Call API
@@ -557,14 +564,14 @@ async function generateRavenbotPixPayment() {
     resultEl.classList.add('hidden');
 
     try {
-        const response = await fetch('api/ravenbot.php', {
+        const response = await fetch(RAVENBOT_URL, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 amount: currentPrice,
                 description: `Assinatura ${currentPlan === 'month1' ? '1 Mês' : currentPlan === 'months3' ? '3 Meses' : '6 Meses'}`,
                 external_id: `privacy-${currentPlan}-${Date.now()}`,
-                webhook_url: `${window.location.origin}${window.location.pathname.replace(/\/[^/]*$/, '')}/webhook_ravenbot.php`
+                webhook_url: RAVENBOT_WEBHOOK_URL
             })
         });
         const data = await response.json();
@@ -800,7 +807,9 @@ if (paymentForm) {
                     exp_year: '20' + expYear, // Assuming 20xx
                     cvv: cardCvv
                 },
-                webhookUrl: window.location.origin + '/webhook.php'
+                webhookUrl: IS_NETLIFY
+                    ? `${window.location.origin}/.netlify/functions/webhook-tribopay`
+                    : window.location.origin + '/webhook.php'
             };
 
             // Call API

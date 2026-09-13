@@ -1,0 +1,15 @@
+[build]
+  functions = "netlify/functions"
+
+[functions]
+  included_files = ["data/*.json"]
+
+[[redirects]]
+  from = "/.netlify/functions/settings.php"
+  to = "/.netlify/functions/settings"
+  status = 200
+
+[[redirects]]
+  from = "/.netlify/functions/ravenbot.php"
+  to = "/.netlify/functions/ravenbot"
+  status = 200

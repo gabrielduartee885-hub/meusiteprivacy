@@ -1,14 +1,16 @@
 // ===== Data Storage =====
 let accounts = [];
-const API_URL = 'api/settings.php';
+const API_URL = window.location.hostname.endsWith('.netlify.app')
+    ? '/.netlify/functions/settings'
+    : 'api/settings.php';
 
 // ===== Initialize =====
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         // Load settings and accounts in parallel
         const [fetchedSettings, fetchedAccounts] = await Promise.all([
-            fetch('api/settings.php?type=siteSettings').then(res => res.json()),
-            fetch('api/settings.php?type=accounts').then(res => res.json())
+            fetch(`${API_URL}?type=siteSettings`).then(res => res.json()),
+            fetch(`${API_URL}?type=accounts`).then(res => res.json())
         ]);
 
         // Apply Settings
