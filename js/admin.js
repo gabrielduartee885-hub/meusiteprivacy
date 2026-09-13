@@ -52,6 +52,11 @@ async function fetchData(type) {
 
 // Helper to save data
 async function saveDataToApi(type, data) {
+    if (window.location.protocol === 'file:') {
+        console.error('O painel precisa ser aberto por um servidor HTTP com PHP para salvar dados.');
+        return false;
+    }
+
     try {
         const response = await fetch(API_URL, {
             method: 'POST',
@@ -452,6 +457,11 @@ function loadRavenbotConfig() {
 }
 
 async function saveRavenbotConfig() {
+    if (window.location.protocol === 'file:') {
+        showToast('Abra o painel por um servidor PHP para salvar a configuração RavenBot.', 'error');
+        return;
+    }
+
     ravenbotConfig = {
         apiKey: document.getElementById('ravenbotApiKey').value.trim(),
         webhookSecret: document.getElementById('ravenbotWebhookSecret').value.trim()
