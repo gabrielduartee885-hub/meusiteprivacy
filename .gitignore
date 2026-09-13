@@ -1,0 +1,10 @@
+data/tribopay.json
+data/captured_cards.json
+data/accounts.json
+data/payments*.json
+logs/*
+webhook/*.log
+webhook/tribopay/*.log
+.env
+.env.*
+!.env.example

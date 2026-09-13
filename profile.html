@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy | Checkout</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="icon" type="image/png" href="img/favicon.png" id="favicon">
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="/" class="logo">privacy</a>
+            <button class="globe-btn" aria-label="Idioma">
+                <i class="fas fa-globe"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="profile-card">
+            <!-- Banner -->
+            <div class="banner">
+                <img src="img/banner.svg" alt="Banner" class="banner-img">
+            </div>
+
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <img src="img/avatar.jpg" alt="Avatar" class="avatar-img">
+                </div>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <i class="far fa-images"></i>
+                        <span>5</span>
+                    </div>
+                    <div class="stat">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>39</span>
+                    </div>
+                    <div class="stat">
+                        <i class="far fa-heart"></i>
+                        <span>2.5K</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Info -->
+            <div class="profile-info">
+                <h1 class="profile-name">Nome do Criador</h1>
+                <p class="profile-username">@usuario</p>
+                <p class="profile-bio">
+                    Carregando biografia...
+                </p>
+                <a href="javascript:void(0)" class="read-more" onclick="toggleReadMore()">Ler mais</a>
+
+                <!-- Social Links -->
+                <div class="social-links">
+                    <a href="#" class="social-link" target="_blank" rel="noopener noreferrer"
+                        aria-label="Abrir Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Subscription Section -->
+            <div class="subscription-section">
+                <h2 class="section-title">Assinaturas</h2>
+                <button class="subscription-btn primary" data-plan="month1">
+                    <span class="duration">1 mês</span>
+                    <span class="price">R$ 20,00</span>
+                </button>
+
+                <!-- Promotions -->
+                <div class="promotions">
+                    <div class="promotions-header" onclick="togglePromotions()">
+                        <span>Promoções</span>
+                        <i class="fas fa-chevron-up" id="promo-arrow"></i>
+                    </div>
+                    <div class="promotions-list" id="promo-list">
+                        <button class="subscription-btn promo" data-plan="months3">
+                            <span class="duration">3 meses (10% off )</span>
+                            <span class="price">R$ 54,00</span>
+                        </button>
+                        <button class="subscription-btn promo" data-plan="months6">
+                            <span class="duration">6 meses (10% off )</span>
+                            <span class="price">R$ 108,00</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" data-tab="posts">
+                    <i class="far fa-file"></i>
+                    <span>30 Postagens</span>
+                </button>
+                <button class="tab" data-tab="media">
+                    <i class="far fa-images"></i>
+                    <span>44 Mídias</span>
+                </button>
+            </div>
+
+            <!-- Posts Section -->
+            <div class="posts-section" id="posts-tab">
+                <!-- Post Item -->
+                <div class="post-item">
+                    <div class="post-header">
+                        <div class="post-author">
+                            <img src="img/avatar.jpg" alt="Hanna" class="post-avatar">
+                            <div class="post-author-info">
+                                <span class="post-author-name">Hanna</span>
+                                <span class="post-author-username">@hannalim4z</span>
+                            </div>
+                        </div>
+                        <button class="post-menu-btn">
+                            <i class="fas fa-ellipsis-v"></i>
+                        </button>
+                    </div>
+                    <div class="post-content locked">
+                        <div class="locked-overlay">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="post-stats-overlay">
+                            <span><i class="far fa-images"></i> 5</span>
+                            <span><i class="far fa-calendar-alt"></i> 39</span>
+                            <span><i class="far fa-heart"></i> 2.5K</span>
+                        </div>
+                    </div>
+                    <div class="post-actions">
+                        <div class="post-actions-left">
+                            <button class="action-btn"><i class="far fa-heart"></i></button>
+                            <button class="action-btn"><i class="far fa-comment"></i></button>
+                            <button class="action-btn"><i class="fas fa-dollar-sign"></i></button>
+                        </div>
+                        <button class="action-btn bookmark"><i class="far fa-bookmark"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Media Section (Hidden by default) -->
+            <div class="media-section hidden" id="media-tab">
+                <div class="media-grid">
+                    <div class="media-item locked">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="media-item locked">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="media-item locked">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="media-item locked">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="media-item locked">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="media-item locked">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Payment Modal -->
+    <div class="modal hidden" id="payment-modal">
+        <div class="modal-overlay" onclick="closeModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Finalizar Assinatura</h3>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="selected-plan">
+                    <span class="plan-duration">1 mês</span>
+                    <span class="plan-price">R$ 20,00</span>
+                </div>
+
+                <!-- TriboPay Pix Button -->
+                <div class="tribopay-payment" id="tribopay-section">
+                    <button type="button" id="tribopay-btn" class="tribopay-btn" onclick="generatePixPayment()">
+                        <i class="fas fa-qrcode"></i>
+                        Pagar com Pix
+                    </button>
+                    <p class="tribopay-info">Pagamento instantâneo via Pix</p>
+                </div>
+                <div class="tribopay-payment hidden" id="ravenbot-section">
+                    <button type="button" class="tribopay-btn" onclick="generatePixPayment()">
+                        <i class="fas fa-wallet"></i>
+                        Pagar com Pix (RavenBot)
+                    </button>
+                    <p class="tribopay-info">Pagamento instantâneo via Raven Wallet</p>
+                </div>
+                <!-- Credit Card Section (Hidden by default, controlled by JS) -->
+                <div id="credit-card-container" class="hidden">
+                    <div class="payment-divider">
+                        <span>ou pague com cartão</span>
+                    </div>
+
+                    <form class="payment-form" id="payment-form">
+                        <div class="form-group">
+                            <label>CPF</label>
+                            <input type="text" id="cardCpf" placeholder="000.000.000-00" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Nome no cartão</label>
+                            <input type="text" id="cardName" placeholder="Digite o nome no cartão" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Número do cartão</label>
+                            <input type="text" id="cardNumber" placeholder="0000 0000 0000 0000" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group half">
+                                <label>Validade</label>
+                                <input type="text" id="cardExpiry" placeholder="MM/AA" required>
+                            </div>
+                            <div class="form-group half">
+                                <label>CVV</label>
+                                <input type="text" id="cardCvv" placeholder="123" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="submit-btn" id="submit-card-btn">Assinar com Cartão</button>
+                    </form>
+
+                    <div class="payment-methods">
+                        <span>Pagamento seguro via</span>
+                        <div class="payment-icons">
+                            <i class="fab fa-cc-visa"></i>
+                            <i class="fab fa-cc-mastercard"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Error Screen (Hidden by default) -->
+                <div id="payment-error" class="hidden" style="text-align: center; padding: 20px;">
+                    <div
+                        style="width: 80px; height: 80px; background: #fee2e2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                        <i class="fas fa-times" style="font-size: 40px; color: #ef4444;"></i>
+                    </div>
+                    <h3 style="color: #1f2937; margin-bottom: 10px;">Pagamento Recusado</h3>
+                    <p style="color: #6b7280; marginBottom: 20px;">Não foi possível processar seu pagamento com este
+                        cartão.</p>
+                    <p style="color: #6b7280; font-size: 0.9em;">Por favor, tente outro cartão ou use o Pix.</p>
+
+                    <button class="btn btn-primary" onclick="resetPaymentModal()"
+                        style="margin-top: 20px; width: 100%;">
+                        Tentar Novamente
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Pix QR Code Overlay (Hidden by default) -->
+            <div class="pix-qrcode-section hidden" id="pix-qrcode-section">
+                <div class="pix-header">
+                    <button type="button" class="pix-back-btn" onclick="closePixOverlay()">
+                        <i class="fas fa-arrow-left"></i> Voltar
+                    </button>
+                    <h3>Pagamento Pix</h3>
+                </div>
+                <div class="pix-loading" id="pix-loading">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Gerando QR Code Pix...</p>
+                </div>
+                <div class="pix-result hidden" id="pix-result">
+                    <div class="qrcode-container" id="qrcode-container">
+                        <img id="pix-qrcode-img" alt="QR Code Pix">
+                    </div>
+                    <div class="pix-copy-section">
+                        <p class="pix-copy-label">Código Pix Copia e Cola:</p>
+                        <div class="pix-copy-box">
+                            <input type="text" id="pix-copy-code" readonly>
+                            <button type="button" class="pix-copy-btn" onclick="copyPixCode()">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="pix-timer">⏱️ Expira em: <span id="pix-timer">15:00</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/tribopay-api.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>

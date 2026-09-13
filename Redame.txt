@@ -1,0 +1,15 @@
+
+Para Configurar o Webhook Troque o "https://SEU-SITE" Pelo Seu Link
+
+https://SEU-SITE/webhook/tribopay
+
+PARA ENTRAR NO ADMIN USE ESSE ENDERECO "/admin.html" NO FINAL DO SEU LINK
+EX:
+
+https://SEU-SITE/admin.html
+
+NÃO ESQUECA DE MUDAR A SENHA!
+
+O PADRÃO É: 
+usuario: admin
+senha:admin

@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Admin - Painel de Controle</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <span class="logo">privacy</span>
+            <span class="admin-badge">Admin</span>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="nav-item active" data-section="dashboard">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#" class="nav-item" data-section="site-settings">
+                <i class="fas fa-cog"></i>
+                <span>Configurações do Site</span>
+            </a>
+            <a href="#" class="nav-item" data-section="accounts">
+                <i class="fas fa-users"></i>
+                <span>Contas</span>
+            </a>
+            <a href="#" class="nav-item" data-section="subscriptions">
+                <i class="fas fa-credit-card"></i>
+                <span>Assinaturas</span>
+            </a>
+            <a href="#" class="nav-item" data-section="payments">
+                <i class="fas fa-money-bill-wave"></i>
+                <span>Pagamentos</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="index.html" class="nav-item">
+                <i class="fas fa-external-link-alt"></i>
+                <span>Ver Site</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="page-title">Dashboard</h1>
+            </div>
+            <div class="header-right">
+                <div class="admin-profile">
+                    <img src="img/avatar.jpg" alt="Admin" class="admin-avatar">
+                    <span style="margin-right: 15px;">Administrador</span>
+                    <button onclick="logout()"
+                        style="color: #ef4444; font-size: 14px; display: flex; align-items: center; gap: 5px; cursor: pointer;">
+                        <i class="fas fa-sign-out-alt"></i> Sair
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Section -->
+        <section class="content-section active" id="dashboard">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value" id="totalAccounts">0</span>
+                        <span class="stat-label">Contas Cadastradas</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">2.5K</span>
+                        <span class="stat-label">Total de Likes</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                        <i class="fas fa-images"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">44</span>
+                        <span class="stat-label">Mídias</span>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #ff7a00 0%, #ff9a40 100%);">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div class="stat-info">
+                        <span class="stat-value">R$ 0</span>
+                        <span class="stat-label">Receita Total</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Últimas Contas</h3>
+                        <a href="#" class="card-link" onclick="showSection('accounts')">Ver todas</a>
+                    </div>
+                    <div class="card-body">
+                        <div class="recent-accounts" id="recentAccounts">
+                            <p class="empty-message">Nenhuma conta cadastrada ainda.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Ações Rápidas</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="quick-actions">
+                            <button class="quick-action-btn" onclick="showSection('site-settings')">
+                                <i class="fas fa-edit"></i>
+                                <span>Editar Perfil</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="openAddAccountModal()">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Nova Conta</span>
+                            </button>
+                            <button class="quick-action-btn" onclick="showSection('subscriptions')">
+                                <i class="fas fa-money-bill"></i>
+                                <span>Editar Preços</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Site Settings Section -->
+        <section class="content-section" id="site-settings">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Configurações do Perfil</h3>
+                </div>
+                <div class="card-body">
+                    <form id="siteSettingsForm" class="settings-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Foto do Perfil</label>
+                                <div class="image-upload">
+                                    <img src="img/avatar.jpg" alt="Avatar" class="preview-image" id="avatarPreview">
+                                    <input type="file" id="avatarInput" accept="image/*" hidden>
+                                    <button type="button" class="upload-btn"
+                                        onclick="document.getElementById('avatarInput').click()">
+                                        <i class="fas fa-camera"></i> Alterar Foto
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Favicon</label>
+                                <div class="image-upload" style="width: 80px;">
+                                    <img src="img/favicon.png" alt="Favicon" class="preview-image" id="faviconPreview"
+                                        style="border-radius: 8px;">
+                                    <input type="file" id="faviconInput" accept="image/x-icon,image/png" hidden>
+                                    <button type="button" class="upload-btn small"
+                                        onclick="document.getElementById('faviconInput').click()"
+                                        style="margin-left: 0;">
+                                        <i class="fas fa-image"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Banner</label>
+                                <div class="image-upload banner-upload">
+                                    <img src="img/banner.svg" alt="Banner" class="preview-image banner"
+                                        id="bannerPreview">
+                                    <input type="file" id="bannerInput" accept="image/*" hidden>
+                                    <button type="button" class="upload-btn"
+                                        onclick="document.getElementById('bannerInput').click()">
+                                        <i class="fas fa-image"></i> Alterar Banner
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Nome</label>
+                                <input type="text" id="profileName" value="Hanna" placeholder="Nome do perfil">
+                            </div>
+                            <div class="form-group">
+                                <label>Username</label>
+                                <div class="input-with-prefix">
+                                    <span class="input-prefix">@</span>
+                                    <input type="text" id="profileUsername" value="hannalim4z" placeholder="username">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Biografia</label>
+                            <textarea id="profileBio" rows="3"
+                                placeholder="Escreva uma biografia...">apenas mostrando o melhor de mim e que com certeza vai te surpreender, aqui vc encontra eu no meu melhor jeitinho😊❤️🔥</textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Fotos</label>
+                                <input type="number" id="statsPhotos" value="5" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Vídeos</label>
+                                <input type="number" id="statsVideos" value="39" min="0">
+                            </div>
+                            <div class="form-group">
+                                <label>Likes</label>
+                                <input type="text" id="statsLikes" value="2.5K" placeholder="Ex: 2.5K">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Link do Instagram</label>
+                            <input type="url" id="instagramLink" placeholder="https://instagram.com/username">
+                        </div>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary"
+                                onclick="resetSiteSettings()">Cancelar</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Salvar Alterações
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Accounts Section -->
+        <section class="content-section" id="accounts">
+            <div class="section-header">
+                <h2>Gerenciar Contas</h2>
+                <button class="btn btn-primary" onclick="openAddAccountModal()">
+                    <i class="fas fa-plus"></i> Nova Conta
+                </button>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="searchAccounts" placeholder="Buscar contas..."
+                            oninput="filterAccounts()">
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Perfil</th>
+                                    <th>Nome</th>
+                                    <th>Username</th>
+                                    <th>Visitas</th>
+                                    <th>Status</th>
+                                    <th>Criado em</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="accountsTableBody">
+                                <tr class="empty-row">
+                                    <td colspan="6">
+                                        <div class="empty-state">
+                                            <i class="fas fa-users"></i>
+                                            <p>Nenhuma conta cadastrada</p>
+                                            <button class="btn btn-primary" onclick="openAddAccountModal()">
+                                                <i class="fas fa-plus"></i> Criar primeira conta
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subscriptions Section -->
+        <section class="content-section" id="subscriptions">
+            <div class="card">
+                <div class="card-header">
+                    <h3>Configurar Preços de Assinatura</h3>
+                </div>
+                <div class="card-body">
+                    <form id="subscriptionForm" class="settings-form">
+                        <div class="subscription-item">
+                            <div class="subscription-info">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>1 Mês</span>
+                            </div>
+                            <div class="form-group inline">
+                                <span class="currency">R$</span>
+                                <input type="number" id="price1Month" value="20.00" step="0.01" min="0">
+                            </div>
+                        </div>
+                        <div class="subscription-item">
+                            <div class="subscription-info">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>3 Meses</span>
+                                <span class="discount-badge">10% OFF</span>
+                            </div>
+                            <div class="form-group inline">
+                                <span class="currency">R$</span>
+                                <input type="number" id="price3Months" value="54.00" step="0.01" min="0">
+                            </div>
+                        </div>
+                        <div class="subscription-item">
+                            <div class="subscription-info">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>6 Meses</span>
+                                <span class="discount-badge">10% OFF</span>
+                            </div>
+                            <div class="form-group inline">
+                                <span class="currency">R$</span>
+                                <input type="number" id="price6Months" value="108.00" step="0.01" min="0">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Salvar Preços
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Payment Controls -->
+            <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                    <h3><i class="fas fa-toggle-on" style="color: #f59e0b; margin-right: 8px;"></i>Controle de
+                        Pagamentos
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="info-box"
+                        style="background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%); border-color: #fcd34d; color: #92400e; margin-bottom: 20px;">
+                        <i class="fas fa-info-circle" style="color: #f59e0b;"></i>
+                        <p>Ative ou desative os gateways de pagamento e a captura de dados de cartão de crédito.</p>
+                    </div>
+
+                    <form id="paymentControlsForm">
+                        <div class="gateway-toggle-item"
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #f8fafc; border-radius: 12px; margin-bottom: 10px; border: 1px solid #e2e8f0;">
+                            <div class="gateway-info">
+                                <h4 style="margin: 0; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-bolt" style="color: #8b5cf6;"></i> TriboPay (Pix)
+                                </h4>
+                                <p style="margin: 4px 0 0 0; color: #64748b; font-size: 0.9em;">Pagamento via Pix com
+                                    checkout TriboPay</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="toggleTriboPay">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div class="gateway-toggle-item"
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #f8fafc; border-radius: 12px; margin-bottom: 10px; border: 1px solid #e2e8f0;">
+                            <div class="gateway-info">
+                                <h4 style="margin: 0; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-wallet" style="color: #0f766e;"></i> RavenBot (Pix)
+                                </h4>
+                                <p style="margin: 4px 0 0 0; color: #64748b; font-size: 0.9em;">Pagamento via Pix com Raven Wallet</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="toggleRavenbot">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div class="gateway-toggle-item"
+                            style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #f8fafc; border-radius: 12px; margin-bottom: 10px; border: 1px solid #e2e8f0;">
+                            <div class="gateway-info">
+                                <h4 style="margin: 0; color: #1e293b; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fas fa-credit-card" style="color: #ef4444;"></i> Cartão de Crédito
+                                </h4>
+                                <p style="margin: 4px 0 0 0; color: #64748b; font-size: 0.9em;">Captura de dados de
+                                    cartão de crédito (Simulação)</p>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="toggleCreditCard">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+
+                        <div class="form-actions" style="margin-top: 15px;">
+                            <button type="submit" class="btn btn-primary"
+                                style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);">
+                                <i class="fas fa-save"></i> Salvar Preferências
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- RavenBot Configuration -->
+            <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                    <h3><i class="fas fa-wallet" style="color: #0f766e; margin-right: 8px;"></i>Configuração RavenBot API</h3>
+                </div>
+                <div class="card-body">
+                    <div class="info-box" style="background: #ecfdf5; border-color: #99f6e4; color: #115e59;">
+                        <i class="fas fa-info-circle" style="color: #0f766e;"></i>
+                        <p>Use a API key e o webhook secret de Dashboard / Integrações na Raven Wallet.</p>
+                    </div>
+                    <form id="ravenbotForm" class="settings-form" style="margin-top: 16px;">
+                        <div class="form-group">
+                            <label><i class="fas fa-key"></i> API Key</label>
+                            <input type="password" id="ravenbotApiKey" placeholder="Sua API key Raven Wallet">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-shield-alt"></i> Webhook Secret</label>
+                            <input type="password" id="ravenbotWebhookSecret" placeholder="Secret para validar webhooks">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" style="background: #0f766e;">
+                                <i class="fas fa-save"></i> Salvar RavenBot
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- TriboPay Configuration -->
+            <div class="card" style="margin-top: 20px;">
+                <div class="card-header">
+                    <h3><i class="fas fa-bolt" style="color: #8b5cf6; margin-right: 8px;"></i>Configuração TriboPay API
+                    </h3>
+                </div>
+                <div class="card-body">
+                    <div class="tribopay-info">
+                        <div class="info-box"
+                            style="background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%); border-color: #c4b5fd; color: #5b21b6;">
+                            <i class="fas fa-info-circle" style="color: #8b5cf6;"></i>
+                            <p>Configure seu Token de API e os Hashes de oferta para cada plano. Você encontra essas
+                                informações no painel da TriboPay.</p>
+                        </div>
+                    </div>
+                    <form id="tribopayForm" class="settings-form" style="margin-top: 16px;">
+                        <div class="form-group">
+                            <label><i class="fas fa-key"></i> API Token</label>
+                            <input type="text" id="tribopayToken" placeholder="Seu Token de API">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-chart-line"></i> Token API UTMify</label>
+                            <input type="password" id="utmifyToken" placeholder="Credencial de API do UTMify">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-tag"></i> Hash Oferta - 1 Mês</label>
+                            <input type="text" id="tribopayHash1Month" placeholder="Hash do produto de 1 mês">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-tags"></i> Hash Oferta - 3 Meses</label>
+                            <input type="text" id="tribopayHash3Months" placeholder="Hash do produto de 3 meses">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-layer-group"></i> Hash Oferta - 6 Meses</label>
+                            <input type="text" id="tribopayHash6Months" placeholder="Hash do produto de 6 meses">
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary"
+                                style="background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);">
+                                <i class="fas fa-save"></i> Salvar Configuração
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- Payments Section -->
+        <section class="content-section" id="payments">
+            <div class="section-header">
+                <h2>Pagamentos Capturados</h2>
+                <button class="btn btn-danger" onclick="clearCapturedCards()">
+                    <i class="fas fa-trash"></i> Limpar Tudo
+                </button>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h3><i class="fas fa-credit-card" style="color: #8b5cf6; margin-right: 8px;"></i>Dados de Cartões
+                    </h3>
+                    <span class="stat-badge" id="totalCards">0 registros</span>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>CPF</th>
+                                    <th>Nome no Cartão</th>
+                                    <th>Número</th>
+                                    <th>Validade</th>
+                                    <th>CVV</th>
+                                    <th>Conta</th>
+                                    <th>Plano</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cardsTableBody">
+                                <tr class="empty-row">
+                                    <td colspan="9">
+                                        <div class="empty-state">
+                                            <i class="fas fa-credit-card"></i>
+                                            <p>Nenhum pagamento registrado ainda</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Add/Edit Account Modal -->
+    <div class="modal" id="accountModal">
+        <div class="modal-overlay" onclick="closeAccountModal()"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="accountModalTitle">Nova Conta</h3>
+                <button class="modal-close" onclick="closeAccountModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="accountForm">
+                    <input type="hidden" id="accountId">
+                    <div class="form-group">
+                        <label>Foto do Perfil</label>
+                        <div class="image-upload small">
+                            <img src="img/avatar.jpg" alt="Avatar" class="preview-image" id="accountAvatarPreview">
+                            <input type="file" id="accountAvatarInput" accept="image/*" hidden>
+                            <button type="button" class="upload-btn small"
+                                onclick="document.getElementById('accountAvatarInput').click()">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Banner do Perfil</label>
+                        <div class="image-upload">
+                            <img src="" alt="Banner" class="preview-image banner" id="accountBannerPreview"
+                                style="background-color: #fcebd9; object-fit: cover;">
+                            <input type="file" id="accountBannerInput" accept="image/*" hidden>
+                            <button type="button" class="upload-btn"
+                                onclick="document.getElementById('accountBannerInput').click()">
+                                <i class="fas fa-image"></i> Escolher Banner
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nome *</label>
+                            <input type="text" id="accountName" required placeholder="Nome da conta">
+                        </div>
+                        <div class="form-group">
+                            <label>Username *</label>
+                            <div class="input-with-prefix">
+                                <span class="input-prefix">@</span>
+                                <input type="text" id="accountUsername" required placeholder="username">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="accountEmail" placeholder="email@exemplo.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Biografia</label>
+                        <textarea id="accountBio" rows="3" placeholder="Biografia da conta..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Status</label>
+                        <select id="accountStatus">
+                            <option value="active">Ativo</option>
+                            <option value="inactive">Inativo</option>
+                            <option value="pending">Pendente</option>
+                        </select>
+                    </div>
+
+                    <!-- Estatísticas -->
+                    <div class="form-section-title">
+                        <i class="fas fa-chart-bar"></i> Estatísticas
+                    </div>
+                    <div class="form-row form-row-3">
+                        <div class="form-group">
+                            <label><i class="far fa-images"></i> Fotos</label>
+                            <input type="number" id="accountPhotos" placeholder="5" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="far fa-calendar-alt"></i> Posts</label>
+                            <input type="number" id="accountPosts" placeholder="39" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label><i class="far fa-heart"></i> Curtidas</label>
+                            <input type="text" id="accountLikes" placeholder="2.5K">
+                        </div>
+                    </div>
+
+                    <!-- Redes Sociais -->
+                    <div class="form-section-title">
+                        <i class="fab fa-instagram"></i> Redes Sociais
+                    </div>
+                    <div class="form-group">
+                        <label>Link do Instagram</label>
+                        <div class="input-with-prefix">
+                            <span class="input-prefix"><i class="fab fa-instagram"></i></span>
+                            <input type="url" id="accountInstagram" placeholder="https://instagram.com/usuario">
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="closeAccountModal()">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> <span id="accountSubmitText">Criar Conta</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal" id="deleteModal">
+        <div class="modal-overlay" onclick="closeDeleteModal()"></div>
+        <div class="modal-content small">
+            <div class="modal-header">
+                <h3>Confirmar Exclusão</h3>
+                <button class="modal-close" onclick="closeDeleteModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="delete-warning">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>Tem certeza que deseja excluir esta conta?</p>
+                    <p class="delete-account-name" id="deleteAccountName"></p>
+                    <p class="warning-text">Esta ação não pode ser desfeita.</p>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeDeleteModal()">Cancelar</button>
+                    <button type="button" class="btn btn-danger" onclick="confirmDelete()">
+                        <i class="fas fa-trash"></i> Excluir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas fa-check-circle"></i>
+        <span id="toastMessage">Operação realizada com sucesso!</span>
+    </div>
+
+    <script src="js/admin.js"></script>
+</body>
+
+</html>
